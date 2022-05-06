@@ -1,0 +1,17 @@
+<%- include('partials/header'); -%>
+<body>
+  <ul class="problems-list allproblems">
+    <li class="TT">
+      <h1>TITLE</h1>
+      <h2>DIFFICULTY</h2>
+    </li>
+    <% problems.forEach(function(problem) { %>
+    <li class="problem-details">
+      <a href="/createRoom/<%= problem.name %>+<%=user%>"
+        ><h1><%= problem.name %></h1>
+        <h2><%= problem.difficulty %></h2></a
+      >
+    </li>
+    <% }); %>
+  </ul>
+</body>

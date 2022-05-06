@@ -1,0 +1,32 @@
+
+<%- include('partials/header'); -%>
+</body>
+<div class="form-wrapper">
+  
+<h1>Upload your code file</h1>
+<div class="file-preview" id="filePreview">
+  <img src="/public/file.png" alt="file preview" class="file-preview__image">
+  <span class="file-preview__default-text"><img src="/public/upload.png" width="150px" height="150px"> No File Chosen</span>
+</div>
+<div class="input">
+  <form method="post" action="/getFile" enctype="multipart/form-data">
+
+      <input type="text" name="name"placeholder='name'required>
+      <input type="text" name="description" placeholder='description'required>
+      <select name="difficulty" id="diff">
+        <option value="easy">EASY</option>
+        <option value="medium">MEDIUM</option>
+        <option value="hard">HARD</option>
+      </select>
+      <input type="text" name="testcases"placeholder='test-case1' required>
+      <input type="text" name="testcases"placeholder='test-case2'>
+      <input type="text" name="testcases"placeholder='test-case3'>
+      <label for="inpFile" class='upload'>Upload</label>
+      <input class="inputs" type='file' name='inpFile' id='inpFile' accept=".js,.py" style='visibility:hidden' required>
+<button class ="pic-button green" type="submit">save</button>
+<button type="reset" class="x">
+  +
+</button>
+</div>
+<script type="text/javascript" src="js/getFiles.js"></script>
+</div>

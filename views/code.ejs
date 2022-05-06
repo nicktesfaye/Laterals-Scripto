@@ -1,0 +1,153 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.min.js"
+  integrity="sha512-/8pAp30QGvOa8tNBv7WmWiPFgYGOg2JdVtqI8vK+xZsqWHnNd939v9s+zJHXZcJe5wPD44D66zz+CLTD3KacYA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/codemirror.min.css"
+  integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/mode/javascript/javascript.min.js"
+  integrity="sha512-I6CdJdruzGtvDyvdO4YsiAq+pkWf2efgd1ZUSK2FnM/u2VuRASPC7GowWQrWyjxCZn6CT89s3ddGI+be0Ak9Fg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/mode/python/python.min.js"
+  integrity="sha512-2M0GdbU5OxkGYMhakED69bw0c1pW3Nb0PeF3+9d+SnwN1ryPx3wiDdNqK3gSM7KAU/pEV+2tFJFbMKjKAahOkQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/theme/midnight.min.css"
+  integrity="sha512-ZTF0X2l7PXEFDyP+MSOK0QM3Qh+C+lQ70Tqx4vQb3+6Uxh2lYkwmbSbpDmksZaX8w0sSz8ctVBnPSzAR1TQlzA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/theme/duotone-light.min.css"
+  integrity="sha512-xf8h6rqzUr4ZJBR/GKic+RSPJUHjPF1cFe6kGi5vgrTbcqIaRd4VaeniV/d8oM7ln5tSIV7KrQ5DxdeYO6zeCg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/theme/duotone-dark.min.css"
+  integrity="sha512-ZtrtnqQDTt3q/gphRTZx/GyeR04lfRhlXNd7IsNnIsJXSgcV0kwUAvhkenh3WlD1Wf+PmD9eZTVWfTrvYYRi4Q=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/theme/yeti.min.css"
+  integrity="sha512-+b67xRJQYRp2mGuJF6q69JzTZ+marVlcW7Mxa8o4YJYjxw11I68l71izpLHudBEnSIglgNSK2PzXkWMw42Be0w=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/theme/eclipse.min.css"
+  integrity="sha512-Gv0sGKOVrQcQjUHL+xd9Bpq5AvLKbcQMb8s4J1//caCLxqvj00CLJMzJlqnTHTCQbKFRpPHqzXteq6dSMs7PEw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+<% if(room){%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+<%}%> <%- include('partials/header2'); -%>
+<style>
+  body {
+    background-color: gainsboro;
+    margin: 0 !important;
+  }
+</style>
+<body>
+  <div class="window">
+    <div class="left-pane">
+      <h1 id="name"><%= problem.name %></h1>
+      <span><h3>Difficulty: <%= problem.difficulty%></h3></span>
+      <span
+        ><h3>
+          Description:
+          <p><%= problem.description%></p>
+        </h3></span
+      >
+      <div class="sampleinput">
+        <textarea readonly name="comment" form="usrform">
+SampleInput:
+
+<%=problem.testcases[0] %></textarea
+        >
+        <div class="sampleoutput">
+          <textarea id="outputSample" readonly name="comment" form="usrform">
+Output:
+
+</textarea
+          >
+        </div>
+      </div>
+    </div>
+    <% if(room){%>
+    <div class="chatbox">
+      <div id="mario-chat">
+        <h2>Chat</h2>
+        <div id="chat-window">
+          <div id="chat-output"></div>
+          <div id="feedback"></div>
+        </div>
+        <input
+          id="handle"
+          type="text"
+          placeholder="Handle"
+          value="You : <%= uid %>"
+          disabled="true"
+        />
+        <input id="message" type="text" placeholder="Message" />
+        <input id="send" class="btn" type="submit" value="Send" />
+      </div>
+    </div>
+    <%}%>
+    <div class="right-pane">
+      <div id="codeEditor"></div>
+      <div class="select">
+        <div class="lang-select">
+          <select name="lang" id="lang">
+            <option value="javascript">Javascript</option>
+            <option value="python">Python</option>
+          </select>
+        </div>
+        <div class="theme-select">
+          <select name="theme" id="theme">
+            <option value="midnight">midnight</option>
+            <option value="eclipse">eclipse</option>
+            <option value="duotone-light">duotone-light</option>
+            <option value="duotone-dark">duotone-dark</option>
+            <option value="yeti">yeti</option>
+          </select>
+        </div>
+        <textarea id="output" readonly name="comment" form="usrform">
+Stdout:</textarea
+        >
+        <ul class="RS_btn">
+          <li><a class="RS" id="run">Run</a></li>
+          <li>
+            <a class="RS" id="submit">Submit</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="../public/code.js"></script>
+<% if(room){%>
+<script src="../public/socket.js"></script>
+<%}%>
